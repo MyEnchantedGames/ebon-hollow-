@@ -1,0 +1,19 @@
+{
+  "name": "Ebon Hollow — Your Game Universe",
+  "short_name": "Ebon Hollow",
+  "description": "A personal dark-fantasy game library.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#100d16",
+  "theme_color": "#15111d",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

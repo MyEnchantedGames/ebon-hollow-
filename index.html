@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15111d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ebon Hollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Ebon Hollow — Your Game Universe</title>
+<style>
+:root{color-scheme:dark;--bg:#100d16;--panel:#1a1523;--panel2:#241c30;--line:#3b2d4b;--gold:#e7c987;--muted:#b6a8c6;--text:#f7f0ff;--plum:#8060a3;--danger:#d78c9b}
+*{box-sizing:border-box}html{min-height:100%;background:var(--bg)}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#382344 0%,var(--bg) 55%);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:1000px;margin:auto;padding:18px 16px 40px}
+header{display:flex;align-items:center;gap:13px;padding:8px 0 22px}
+.logo{width:58px;height:58px;flex:0 0 auto;border:1px solid #806442;border-radius:18px;background:linear-gradient(145deg,#34233f,#17111f);display:grid;place-items:center;box-shadow:0 0 28px #8a5b9c20}
+.logo svg{width:38px;height:38px}
+h1{font-family:Georgia,serif;letter-spacing:.12em;font-size:clamp(1.2rem,5vw,1.8rem);margin:0;color:var(--gold)}
+.subtitle{font-size:.82rem;color:var(--muted);margin-top:3px}
+.status{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:#bfe6c8;font-size:.72rem;white-space:nowrap}
+.hero{border:1px solid #554060;border-radius:22px;padding:24px 20px;background:linear-gradient(125deg,#291d36dd,#18121fef);position:relative;overflow:hidden}
+.hero:after{content:"☾";position:absolute;right:18px;top:-34px;font:150px Georgia,serif;color:#e7c9870d;pointer-events:none}
+.eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:.68rem;color:var(--gold);font-weight:700}
+.hero h2{font:clamp(1.6rem,7vw,2.5rem)/1.1 Georgia,serif;margin:10px 0;color:#fff4dc}
+.hero p{color:var(--muted);max-width:540px;margin:0 0 18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:1px solid #725b83;border-radius:12px;padding:11px 14px;background:#2c2138;color:var(--text);font-weight:650}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:#211728}
+.btn.ghost{background:transparent}
+.btn:active,.tile:active{transform:scale(.985)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 2px 12px}
+.section-head h3{margin:0;font:1.25rem Georgia,serif;color:#f4e4c5}
+.count{color:var(--muted);font-size:.8rem}
+.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 8px;scrollbar-width:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:#191320;color:var(--muted);border-radius:999px;padding:8px 12px;font-size:.83rem}
+.chip.active{background:#3a2a48;border-color:#a888c1;color:#fff}
+.search{width:100%;border:1px solid var(--line);background:#17121e;color:var(--text);border-radius:12px;padding:12px 14px;margin:8px 0 2px;outline:none}
+.search:focus,input:focus,select:focus{border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{border:1px solid var(--line);background:linear-gradient(150deg,#21192b,#17121e);border-radius:17px;padding:14px;min-height:184px;display:flex;flex-direction:column;gap:10px;transition:transform .12s;min-width:0}
+.tiletop{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.glyph{height:52px;width:52px;border-radius:15px;background:linear-gradient(145deg,#40304f,#211728);border:1px solid #594365;display:grid;place-items:center;font-size:1.7rem;flex:0 0 auto}
+.fav{border:0;background:transparent;color:#7c6c8b;font-size:1.35rem;padding:0 3px}
+.fav.on{color:var(--gold)}
+.tile h4{font:1.08rem Georgia,serif;margin:0;color:#fff0d4;overflow-wrap:anywhere}
+.tile p{margin:0;color:var(--muted);font-size:.83rem;overflow-wrap:anywhere}
+.tag{font-size:.68rem;color:#d2bfe5;background:#30243c;border-radius:6px;padding:4px 7px;align-self:flex-start}
+.tile .btn{margin-top:auto;width:100%;padding:9px}
+.empty{grid-column:1/-1;border:1px dashed #4d3b5d;border-radius:16px;padding:26px 18px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:#f2dfbd;font:1.2rem Georgia,serif;margin-bottom:6px}
+footer{border-top:1px solid #302439;margin-top:30px;padding-top:17px;color:#8f809e;font-size:.75rem;text-align:center}
+dialog{width:min(92vw,500px);border:1px solid #695077;border-radius:20px;background:#1b1524;color:var(--text);padding:0;box-shadow:0 24px 80px #000b}
+dialog::backdrop{background:#08050dcc;backdrop-filter:blur(5px)}
+.modalhead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+.modalhead h3{font:1.3rem Georgia,serif;margin:0;color:var(--gold)}
+.close{border:0;background:transparent;color:var(--muted);font-size:1.5rem}
+form{padding:20px;display:grid;gap:13px}
+label{display:grid;gap:6px;color:#d9cde4;font-size:.84rem}
+input,select{width:100%;border:1px solid var(--line);background:#100d16;color:var(--text);border-radius:10px;padding:11px}
+.help{font-size:.77rem;color:var(--muted);margin:0}
+.formbuttons{display:flex;gap:9px;margin-top:4px}
+.formbuttons button{flex:1}
+.notice{padding:12px 14px;background:#241c30;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:.83rem;margin-top:14px}
+.game-screen{padding:22px}
+.game-screen h2{font:1.7rem Georgia,serif;color:var(--gold)}
+.story{white-space:pre-line;color:#e5dbea;line-height:1.7}
+@media(min-width:650px){.app{padding:28px 24px 50px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:32px}.tile{min-height:200px}}
+@media(max-width:360px){.status{display:none}.grid{grid-template-columns:1fr}.tile{min-height:160px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo" aria-hidden="true">
+    <svg viewBox="0 0 64 64" fill="none"><path d="M42 7a23 23 0 1 0 15 39A25 25 0 0 1 42 7Z" stroke="#e7c987" stroke-width="2.4"/><path d="M13 52h38M19 52V31l13-11 13 11v21M26 52V39h12v13" stroke="#e7c987" stroke-width="2" stroke-linejoin="round"/><path d="m15 13 1.5 4.5L21 19l-4.5 1.5L15 25l-1.5-4.5L9 19l4.5-1.5Z" fill="#e7c987"/></svg>
+  </div>
+  <div><h1>EBON HOLLOW</h1><div class="subtitle">Your personal realm of games</div></div>
+  <div class="status" id="status">● Local library</div>
+</header>
+<section class="hero">
+  <div class="eyebrow">Your universe · Your rules</div>
+  <h2>Enter the Hollow.</h2>
+  <p>A growing collection of strange worlds, eerie stories, and little adventures. Your library is saved on this device.</p>
+  <div class="actions">
+    <button class="btn primary" id="addHero">＋ Add a game</button>
+    <button class="btn ghost" id="favoritesBtn">☆ Favorites</button>
+  </div>
+</section>
+<div class="section-head"><h3>Explore your collection</h3><span class="count" id="count">0 games</span></div>
+<div class="filters" id="filters">
+  <button class="chip active" data-category="All">All</button>
+  <button class="chip" data-category="Dark Fantasy">Dark Fantasy</button>
+  <button class="chip" data-category="Horror">Horror</button>
+  <button class="chip" data-category="Stories">Stories</button>
+  <button class="chip" data-category="Cozy">Cozy</button>
+  <button class="chip" data-category="Tools">Tools</button>
+</div>
+<input class="search" id="search" type="search" placeholder="Search your collection…" aria-label="Search your collection">
+<div class="section-head"><h3 id="listTitle">All games</h3><span class="count">Tap to open</span></div>
+<div class="grid" id="grid"></div>
+<div class="notice"><strong style="color:#e7c987">Offline note:</strong> This library can remember your collection on this iPhone. For reliable offline launch, install it once while online. Games you add by web link may still need their own offline support; a link alone cannot make another website work offline.</div>
+<footer>Made for curious souls · Ebon Hollow v1.0<br>Keep a backup before clearing Safari website data.</footer>
+</div>
+
+<dialog id="addDialog">
+  <div class="modalhead"><h3>Add to the Hollow</h3><button class="close" id="closeAdd" aria-label="Close">×</button></div>
+  <form id="addForm">
+    <label>Game or program name<input id="gameName" required maxlength="60" placeholder="e.g. The Witching Hour"></label>
+    <label>Description<input id="gameDesc" maxlength="130" placeholder="What is this world about?"></label>
+    <label>Category<select id="gameCategory"><option>Dark Fantasy</option><option>Horror</option><option>Stories</option><option>Cozy</option><option>Tools</option></select></label>
+    <label>Icon (emoji)<input id="gameIcon" maxlength="4" value="🌙" placeholder="🌙"></label>
+    <label>Launch link (optional)<input id="gameUrl" type="url" placeholder="https://…"></label>
+    <p class="help">Leave the link blank to create a library entry for a future game. A web link opens that game but does not guarantee offline play.</p>
+    <div class="formbuttons"><button class="btn ghost" type="button" id="cancelAdd">Cancel</button><button class="btn primary" type="submit">Add game</button></div>
+  </form>
+</dialog>
+
+<dialog id="storyDialog">
+  <div class="modalhead"><h3>The Lantern in the Attic</h3><button class="close" id="closeStory" aria-label="Close">×</button></div>
+  <div class="game-screen">
+    <div class="eyebrow">A tiny offline story</div>
+    <h2 id="storyTitle">The house is listening.</h2>
+    <p class="story" id="storyText">At the top of a forgotten staircase, a blue lantern flickers though there is no wind. From behind the attic door, something whispers your name.</p>
+    <div class="actions" id="storyChoices">
+      <button class="btn primary" data-choice="open">Open the door</button>
+      <button class="btn ghost" data-choice="leave">Take the lantern and leave</button>
+    </div>
+    <p class="help" style="margin-top:14px">This sample story runs locally and is included to test the library.</p>
+  </div>
+</dialog>
+
+<script>
+const STORE_KEY = "ebon-hollow-library-v1";
+const starter = [
+ {id:"starter-story",name:"The Lantern in the Attic",description:"A short supernatural story with choices and multiple paths.",category:"Stories",icon:"🕯️",url:"",favorite:true,builtin:true},
+ {id:"coming-fog",name:"The Town Beneath the Fog",description:"A mysterious world waiting to be built.",category:"Horror",icon:"🌫️",url:"",favorite:false,builtin:false},
+ {id:"coming-grimoire",name:"The Midnight Grimoire",description:"A place for spells, secrets, and strange discoveries.",category:"Dark Fantasy",icon:"📖",url:"",favorite:false,builtin:false}
+];
+let games = loadGames();
+let activeCategory = "All";
+let favoritesOnly = false;
+function loadGames(){try{const v=JSON.parse(localStorage.getItem(STORE_KEY));return Array.isArray(v)?v:starter.map(x=>({...x}));}catch(e){return starter.map(x=>({...x}));}}
+function saveGames(){try{localStorage.setItem(STORE_KEY,JSON.stringify(games));}catch(e){}}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function render(){
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const visible=games.filter(g=>(activeCategory==="All"||g.category===activeCategory)&&(!favoritesOnly||g.favorite)&&(`${g.name} ${g.description} ${g.category}`.toLowerCase().includes(q)));
+ document.getElementById("count").textContent=`${games.length} ${games.length===1?"game":"games"}`;
+ document.getElementById("listTitle").textContent=favoritesOnly?"Favorites":activeCategory==="All"?"All games":activeCategory;
+ document.getElementById("favoritesBtn").textContent=favoritesOnly?"★ All games":"☆ Favorites";
+ document.getElementById("favoritesBtn").classList.toggle("primary",favoritesOnly);
+ const grid=document.getElementById("grid");
+ if(!visible.length){grid.innerHTML='<div class="empty"><strong>No worlds found… yet.</strong>Add a game or try another category.</div>';return;}
+ grid.innerHTML=visible.map(g=>`<article class="tile">
+  <div class="tiletop"><div class="glyph" aria-hidden="true">${escapeHtml(g.icon||"🌙")}</div><button class="fav ${g.favorite?"on":""}" data-fav="${escapeHtml(g.id)}" aria-label="${g.favorite?"Remove from":"Add to"} favorites">${g.favorite?"★":"☆"}</button></div>
+  <span class="tag">${escapeHtml(g.category)}</span><h4>${escapeHtml(g.name)}</h4><p>${escapeHtml(g.description||"A new world in your collection.")}</p>
+  <button class="btn ${g.builtin?"primary":""}" data-open="${escapeHtml(g.id)}">${g.builtin?"Play story":g.url?"Open game":"Coming soon"}</button>
+ </article>`).join("");
+ grid.querySelectorAll("[data-fav]").forEach(b=>b.addEventListener("click",()=>toggleFavorite(b.dataset.fav)));
+ grid.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>openGame(b.dataset.open)));
+}
+function toggleFavorite(id){const g=games.find(x=>x.id===id);if(g){g.favorite=!g.favorite;saveGames();render();}}
+function openGame(id){
+ const g=games.find(x=>x.id===id);if(!g)return;
+ if(g.builtin){resetStory();document.getElementById("storyDialog").showModal();return;}
+ if(g.url){window.open(g.url,"_blank","noopener,noreferrer");return;}
+ alert("This entry is ready for a game. Add a launch link when you have built or hosted it. For offline play, the game itself must include offline support.");
+}
+const addDialog=document.getElementById("addDialog");
+function showAdd(){document.getElementById("addForm").reset();document.getElementById("gameIcon").value="🌙";addDialog.showModal();}
+document.getElementById("addHero").addEventListener("click",showAdd);
+document.getElementById("closeAdd").addEventListener("click",()=>addDialog.close());
+document.getElementById("cancelAdd").addEventListener("click",()=>addDialog.close());
+document.getElementById("favoritesBtn").addEventListener("click",()=>{favoritesOnly=!favoritesOnly;render();});
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("filters").querySelectorAll("[data-category]").forEach(b=>b.addEventListener("click",()=>{activeCategory=b.dataset.category;favoritesOnly=false;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));render();}));
+document.getElementById("addForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const name=document.getElementById("gameName").value.trim();if(!name)return;
+ let url=document.getElementById("gameUrl").value.trim();
+ if(url&&!/^https?:\/\//i.test(url)){alert("Please enter a link starting with https:// or http://");return;}
+ games.unshift({id:"game-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),name,description:document.getElementById("gameDesc").value.trim(),category:document.getElementById("gameCategory").value,icon:document.getElementById("gameIcon").value.trim()||"🌙",url,favorite:false,builtin:false});
+ saveGames();activeCategory="All";favoritesOnly=false;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x.dataset.category==="All"));addDialog.close();render();
+});
+document.getElementById("closeStory").addEventListener("click",()=>document.getElementById("storyDialog").close());
+function resetStory(){document.getElementById("storyTitle").textContent="The house is listening.";document.getElementById("storyText").textContent="At the top of a forgotten staircase, a blue lantern flickers though there is no wind. From behind the attic door, something whispers your name.";document.getElementById("storyChoices").innerHTML='<button class="btn primary" data-choice="open">Open the door</button><button class="btn ghost" data-choice="leave">Take the lantern and leave</button>';wireStoryChoices();}
+function wireStoryChoices(){document.querySelectorAll("[data-choice]").forEach(b=>b.addEventListener("click",()=>{
+ const choice=b.dataset.choice;
+ if(choice==="open"){document.getElementById("storyTitle").textContent="Something knows you.";document.getElementById("storyText").textContent="The door opens by itself. Inside, the attic is full of mirrors—and every reflection is standing with its back to you. One slowly turns and raises a finger to its lips.";document.getElementById("storyChoices").innerHTML='<button class="btn primary" data-choice="mirror">Look into the mirror</button><button class="btn ghost" data-choice="run">Run downstairs</button>';}
+ else if(choice==="leave"){document.getElementById("storyTitle").textContent="The lantern came home.";document.getElementById("storyText").textContent="You make it outside. The night air feels safe until you notice the lantern has gone cold. In its glass, a tiny silhouette waves from somewhere behind you.";document.getElementById("storyChoices").innerHTML='<button class="btn primary" data-choice="again">Begin again</button>';}
+ else if(choice==="mirror"){document.getElementById("storyTitle").textContent="A familiar stranger.";document.getElementById("storyText").textContent="Your reflection smiles before you do. Then it steps away from the glass, leaving your reflection behind. The lantern goes out. Somewhere in the dark, a new door unlocks.";document.getElementById("storyChoices").innerHTML='<button class="btn primary" data-choice="again">Begin again</button>';}
+ else if(choice==="run"){document.getElementById("storyTitle").textContent="The stairs have changed.";document.getElementById("storyText").textContent="You race down the staircase, but each landing leads back to the attic. At the top, the lantern waits beside a new note: “Thank you for staying.”";document.getElementById("storyChoices").innerHTML='<button class="btn primary" data-choice="again">Begin again</button>';}
+ else if(choice==="again"){resetStory();return;}
+ wireStoryChoices();
+}));}
+wireStoryChoices();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").then(()=>{document.getElementById("status").textContent="● Offline-ready";}).catch(()=>{document.getElementById("status").textContent="● Library ready";}));}
+render();
+</script>
+</body>
+</html>
